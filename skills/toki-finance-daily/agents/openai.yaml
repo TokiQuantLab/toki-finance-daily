@@ -1,4 +1,0 @@
-interface:
-  display_name: "Toki 财经日报"
-  short_description: "采集四品种财经信息，生成日报长图与完整网站并更新本地预览"
-  default_prompt: "使用 $toki-finance-daily 生成今天的财经日报并更新本地网页数据，沿用现有版式。"
