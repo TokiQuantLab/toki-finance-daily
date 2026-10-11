@@ -3,9 +3,9 @@
   <img src="./assets/readme-hero.svg" alt="Toki Finance Daily / 财经日报 — Agent Skills + Python" width="100%">
 </picture>
 
-An AI-assisted workflow for Chinese financial briefings. Python collects and organizes the data; the Skill guides your AI agent through news selection, analysis, and delivery.
+**Toki Finance Daily** by [TokiQuantLab](https://github.com/TokiQuantLab) is an open-source AI financial daily briefing workflow. Agent Skills and Python turn financial news, economic calendars and market data into Chinese daily posters and a research website.
 
-用 Skill 和 Python 生成中文财经日报。程序采集、整理与排版，AI 筛选新闻、梳理影响并撰写解读。
+**Toki Finance Daily** 是 [TokiQuantLab](https://github.com/TokiQuantLab) 的开源 AI 财经日报项目。结合 Agent Skills 与 Python，整理财经新闻、财经日历和市场数据，生成中文日报长图与完整研究网页。
 
 The default focus is **gold (XAUUSD), WTI oil (USOIL), Bitcoin (BTCUSD), and Nasdaq 100 (NAS100)**, alongside important macroeconomic, policy, and market developments.
 
