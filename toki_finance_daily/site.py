@@ -11,6 +11,8 @@ import json
 import math
 import re
 
+from .brand import logo_data_uri
+
 ASSETS = Path(__file__).parent / "assets"
 
 
@@ -197,7 +199,7 @@ def build_site(dataset, brief, folder):
     public = _public(dataset, brief, folder)
     css = (ASSETS / "daily-site.css").read_text(encoding="utf-8")
     js = (ASSETS / "daily-site.js").read_text(encoding="utf-8")
-    logo_uri = "data:image/png;base64," + base64.b64encode((ASSETS / "brand-logo.png").read_bytes()).decode("ascii")
+    logo_uri = logo_data_uri()
     payload = json.dumps(public, ensure_ascii=False, allow_nan=False, separators=(",", ":"))
     embedded = payload.replace("&", "\\u0026").replace("<", "\\u003c").replace(">", "\\u003e").replace("\u2028", "\\u2028").replace("\u2029", "\\u2029")
     digest = base64.b64encode(sha256(js.encode("utf-8")).digest()).decode("ascii")
@@ -206,7 +208,7 @@ def build_site(dataset, brief, folder):
     html = f'''<!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="{escape(csp, quote=True)}"><meta name="color-scheme" content="light"><title>{title} · Toki 财经研究</title>
-<link rel="icon" type="image/png" sizes="150x150" href="{logo_uri}">
+<link rel="icon" type="image/png" href="{logo_uri}">
 <style>{css}</style></head><body>
 <a class="skip-link" href="#main">跳到正文</a>
 <header class="topbar"><a class="brand" href="#top"><img class="brand-mark" src="{logo_uri}" alt="" width="40" height="40"><span>Toki <b>Quant Lab</b><small>DAILY RESEARCH</small></span></a><nav aria-label="栏目"><a id="focus-nav" href="#focus" hidden>品种总览</a><a href="#today">今日解读</a><a href="#markets">市场数据</a><a href="#news">资讯</a><a href="#technicals">技术分析</a><a href="#calendar">日历</a><a id="online-nav" href="#online">在线观察</a></nav><a class="data-link" href="public-data.json" download>数据 ↓</a></header>

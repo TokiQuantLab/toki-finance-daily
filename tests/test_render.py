@@ -71,7 +71,7 @@ class RenderTests(unittest.TestCase):
         self.dataset["records"][0]["title"] = payload
         self.dataset["records"][0]["url"] = "javascript:alert(1)"
         result = render_html(self.brief, self.dataset)
-        self.assertNotIn("<img", result)
+        self.assertNotIn("<img src=x", result)
         self.assertNotIn('href="javascript:', result)
         self.assertIn("&lt;img", result)
 
@@ -111,7 +111,7 @@ class RenderTests(unittest.TestCase):
         self.assertNotIn("非行情图", result)
         self.assertNotIn("<svg", result)
         self.assertNotIn("orbit-art", result)
-        self.assertIn('class="brand-symbol">TQ<span>↗</span>', result)
+        self.assertIn('class="brand-symbol" src="data:image/png;base64,', result)
         self.assertNotIn("<script", result)
         self.assertNotIn("@import", result)
         self.assertNotIn('<link rel="stylesheet"', result)

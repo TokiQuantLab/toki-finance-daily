@@ -11,6 +11,8 @@ from typing import Any
 from urllib.parse import urlsplit
 from zoneinfo import ZoneInfo
 
+from .brand import logo_data_uri
+
 
 def _text(value: Any) -> str:
     return html.escape("" if value is None else str(value), quote=True)
@@ -251,6 +253,7 @@ def render_html(brief: dict[str, Any], dataset: dict[str, Any]) -> str:
         + '<p class="editorial-note">本文观点仅供参考，不构成投资建议。</p></section>' if observations else ""
     )
     css = Path(__file__).with_name("assets").joinpath("poster.css").read_text(encoding="utf-8")
+    logo_uri = logo_data_uri()
     return f"""<!DOCTYPE html>
 <html lang="zh-CN"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -259,7 +262,7 @@ def render_html(brief: dict[str, Any], dataset: dict[str, Any]) -> str:
 <title>{_text(brief.get("headline"))} · Toki Quant Lab</title><style>{css}</style></head>
 <body><main class="poster">
 {demo_banner}
-<header class="masthead"><div class="brand"><span class="brand-symbol">TQ<span>↗</span></span>
+<header class="masthead"><div class="brand"><img class="brand-symbol" src="{logo_uri}" alt="" width="72" height="72">
 <div><p>Toki <b>Quant Lab</b></p><small>GLOBAL FINANCE / 全球财经观察</small></div></div>
 <div class="date-block"><span>{_text(year)}</span><strong>{_text(month_day)}</strong><small>{_text(weekday)}</small></div></header>
 <section class="cover"><div class="cover-kicker"><span>DAILY BRIEFING</span><span>{_text(brief.get("edition", "全球宏观观察"))}</span></div>

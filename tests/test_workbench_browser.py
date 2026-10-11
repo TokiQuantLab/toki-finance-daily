@@ -4,8 +4,8 @@ from tempfile import TemporaryDirectory
 from unittest import TestCase, SkipTest
 import importlib.util
 
+from toki_finance_daily.cli import workbench
 
-TEMPLATE = Path(__file__).resolve().parents[1] / "toki_finance_daily/assets/workbench.html"
 
 
 class WorkbenchBrowserTests(TestCase):
@@ -29,7 +29,7 @@ class WorkbenchBrowserTests(TestCase):
     def setUp(self):
         self.temp = TemporaryDirectory(); self.addCleanup(self.temp.cleanup)
         self.path = Path(self.temp.name) / "technical.html"
-        self.path.write_text(TEMPLATE.read_text(), encoding="utf-8")
+        workbench(self.temp.name)
         self.page = self.browser.new_page(viewport={"width": 540, "height": 1000})
         self.addCleanup(self.page.close)
         self.page.route("http://**/*", lambda route: route.abort())

@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark light">
   <title>市场技术观察 · Toki Quant Lab</title>
+  <link rel="icon" type="image/png" href="{{BRAND_LOGO_URI}}">
   <script>if (new URLSearchParams(location.search).get('embedded') === '1') document.documentElement.dataset.embedded = 'true';</script>
   <style>
     :root { color-scheme: dark; --bg:#0b1019; --panel:#111a26; --panel-alt:#182334; --widget-surface:#000; --ink:#f4f2e9; --muted:#a5b1c3; --line:#293449; --accent:#d2f863; --accent-ink:#101a07; --glow:rgba(210,248,99,.075); --tv-widget-font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif; }
@@ -20,7 +21,7 @@
     .shell { max-width:1380px; margin:auto; padding:0 42px; }
     .masthead { display:flex; align-items:center; justify-content:space-between; gap:24px; padding:28px 0; border-bottom:1px solid var(--line); }
     .brand { font-size:14px; font-weight:800; letter-spacing:2px; display:flex; align-items:center; gap:12px; }
-    .brand-mark { width:27px; height:27px; border:1px solid var(--accent); background:linear-gradient(135deg,var(--accent) 0 46%,transparent 47% 54%,var(--accent) 55%); }
+    .brand-mark { display:block; width:27px; height:27px; flex:0 0 auto; object-fit:contain; }
     .top-nav { display:flex; align-items:center; gap:22px; font-size:13px; color:var(--muted); }
     .theme-button { padding:7px 13px; border:1px solid var(--line); border-radius:99px; background:transparent; color:var(--ink); }
     .embedded-toolbar { display:none; }
@@ -103,7 +104,7 @@
 <body>
   <div class="shell">
     <header class="masthead">
-      <a class="brand" href="#top"><span class="brand-mark" aria-hidden="true"></span>Toki / Quant Lab</a>
+      <a class="brand" href="#top"><img class="brand-mark" src="{{BRAND_LOGO_URI}}" alt="" width="27" height="27">Toki / Quant Lab</a>
       <nav class="top-nav" aria-label="页面导航">
         <a href="#analysis">技术评级</a><a href="#calendar">财经日历</a>
         <button class="theme-button" id="theme-toggle" data-theme-toggle type="button" aria-label="切换为浅色主题">浅色模式 ↗</button>

@@ -10,6 +10,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from .brief import BRIEF_SCHEMA, BriefError, editorial_prompt, generate_brief, make_packet, resource_path, validate_brief
+from .brand import logo_data_uri
 
 
 def read_json(path):
@@ -97,7 +98,8 @@ def workbench(folder):
     folder = Path(folder)
     folder.mkdir(parents=True, exist_ok=True)
     destination = folder / "technical.html"
-    shutil.copyfile(Path(__file__).parent / "assets" / "workbench.html", destination)
+    template = (Path(__file__).parent / "assets" / "workbench.html").read_text(encoding="utf-8")
+    destination.write_text(template.replace("{{BRAND_LOGO_URI}}", logo_data_uri()), encoding="utf-8")
     return str(destination.resolve())
 
 
