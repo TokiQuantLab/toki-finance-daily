@@ -197,6 +197,7 @@ def build_site(dataset, brief, folder):
     public = _public(dataset, brief, folder)
     css = (ASSETS / "daily-site.css").read_text(encoding="utf-8")
     js = (ASSETS / "daily-site.js").read_text(encoding="utf-8")
+    logo_uri = "data:image/png;base64," + base64.b64encode((ASSETS / "brand-logo.png").read_bytes()).decode("ascii")
     payload = json.dumps(public, ensure_ascii=False, allow_nan=False, separators=(",", ":"))
     embedded = payload.replace("&", "\\u0026").replace("<", "\\u003c").replace(">", "\\u003e").replace("\u2028", "\\u2028").replace("\u2029", "\\u2029")
     digest = base64.b64encode(sha256(js.encode("utf-8")).digest()).decode("ascii")
@@ -205,9 +206,10 @@ def build_site(dataset, brief, folder):
     html = f'''<!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="{escape(csp, quote=True)}"><meta name="color-scheme" content="light"><title>{title} · Toki 财经研究</title>
+<link rel="icon" type="image/png" sizes="150x150" href="{logo_uri}">
 <style>{css}</style></head><body>
 <a class="skip-link" href="#main">跳到正文</a>
-<header class="topbar"><a class="brand" href="#top"><span class="brand-mark">T<span>·</span></span><span>Toki <b>Quant Lab</b><small>DAILY RESEARCH</small></span></a><nav aria-label="栏目"><a id="focus-nav" href="#focus" hidden>品种总览</a><a href="#today">今日解读</a><a href="#markets">市场数据</a><a href="#news">资讯</a><a href="#technicals">技术分析</a><a href="#calendar">日历</a><a id="online-nav" href="#online">在线观察</a></nav><a class="data-link" href="public-data.json" download>数据 ↓</a></header>
+<header class="topbar"><a class="brand" href="#top"><img class="brand-mark" src="{logo_uri}" alt="" width="40" height="40"><span>Toki <b>Quant Lab</b><small>DAILY RESEARCH</small></span></a><nav aria-label="栏目"><a id="focus-nav" href="#focus" hidden>品种总览</a><a href="#today">今日解读</a><a href="#markets">市场数据</a><a href="#news">资讯</a><a href="#technicals">技术分析</a><a href="#calendar">日历</a><a id="online-nav" href="#online">在线观察</a></nav><a class="data-link" href="public-data.json" download>数据 ↓</a></header>
 <main id="main"><section class="hero container" id="top"><div class="hero-main"><p class="eyebrow">THE DAILY PERSPECTIVE <span id="edition"></span></p><h1 id="headline">{title}</h1><p class="dek" id="dek"></p><div class="hero-actions"><a id="hero-primary" class="button primary" href="#today">阅读今日解读 <span>↗</span></a><a class="button quiet" href="#technicals">查看技术明细</a></div></div><aside class="edition-card"><div class="edition-orbit" aria-hidden="true"><i></i><i></i><i></i><span>TQ</span></div><p class="eyebrow">RESEARCH EDITION</p><strong id="edition-date"></strong><p class="edition-time" id="edition-time"></p><p class="edition-note">新闻、市场与技术<br>按各自时点阅读</p></aside></section>
 <section class="container section focus-section" id="focus" hidden><div class="section-heading"><div><p class="eyebrow">TRADING ASSETS / SIDE BY SIDE</p><h2>交易品种总览</h2></div><a href="#technicals">全部品种与原始表格 ↗</a></div><div class="focus-cards" id="focus-cards"></div><p class="focus-note">评级按各自周期排列，来源与时间分别标注。— 表示未提供，技术信号按来源阅读。</p><div id="focus-ratings"></div></section>
 <section class="container section" id="today"><div class="section-heading"><div><p class="eyebrow">01 / THE BIG PICTURE</p><h2>今日解读</h2></div><p>从事件出发，沿证据看传导</p></div><div id="editorial"></div><div class="scenario-grid" id="scenarios"></div></section>

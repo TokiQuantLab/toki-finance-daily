@@ -21,6 +21,10 @@ The default focus is **gold (XAUUSD), WTI oil (USOIL), Bitcoin (BTCUSD), and Nas
 - **Daily poster / 日报长图：** Selected news, market analysis, and upcoming events. 重点新闻、市场解读与近期安排，提供完整长图、手机版和封面。
 - **Research site / 研究网页：** The collected news, economic calendar, and technical data with source links. 保留完整已采资讯、财经日历、技术数据与来源链接，支持搜索、筛选和手机阅读。
 
+## Try it / 在线体验
+
+[Open the live daily / 查看在线日报](https://daily.tokiquantlab.com)
+
 ## Install in Codex / 安装到 Codex
 
 Requires Python 3.10+. Send the following prompt to Codex to install directly from this repository.
@@ -54,6 +58,16 @@ Results are saved in / 成果保存于：
 
 - `artifacts/live/` — `poster.png`, `poster-mobile.png`, `poster-cover.png`
 - `artifacts/site/index.html` — Research site / 研究网页
+
+After generation, the Skill starts the local preview at `http://127.0.0.1:8785/`. If needed, start it from the repository directory with Python 3:
+
+生成后，Skill 会启动本地预览。若未启动，在仓库根目录运行：
+
+```bash
+python3 -m http.server 8785 --bind 127.0.0.1 --directory artifacts/site
+```
+
+[Open local site / 打开本地网页](http://127.0.0.1:8785/)
 
 ## Jin10 data / 金十数据
 
