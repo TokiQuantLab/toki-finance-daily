@@ -11,5 +11,6 @@ artifacts/
 .DS_Store
 AGENTS.md
 DEVELOPMENT.md
+DESIGN.md
+config/brand-theme.json
 docs/*
-!docs/contracts.md
