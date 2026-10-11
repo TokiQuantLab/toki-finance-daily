@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+build/
+dist/
+artifacts/
+.env
+.env.*
+!.env.example
+.DS_Store
+AGENTS.md
+DEVELOPMENT.md
+docs/*
+!docs/contracts.md

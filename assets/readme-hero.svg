@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1200" height="360" viewBox="0 0 1200 360" role="img" aria-labelledby="title desc">
+<title id="title">Toki Finance Daily / 财经日报</title>
+<desc id="desc">Agent Skills + Python. News. Context. Market insight. 新闻、背景与市场解读。</desc>
+<g font-family="Arial, &quot;PingFang SC&quot;, &quot;Microsoft YaHei&quot;, &quot;Noto Sans CJK SC&quot;, sans-serif">
+<rect width="1200" height="360" fill="#F4F2E9"/>
+<rect width="1200" height="5" fill="#D8FF3E"/>
+<g fill="none" stroke="#102130" opacity=".13"><circle cx="1177" cy="176" r="111"/><circle cx="1177" cy="176" r="148"/><path d="M1022 176 H1200"/></g>
+<g transform="translate(60 39)"><rect width="76" height="76" fill="#102130"/><text x="12.920000000000002" y="53.199999999999996" font-size="33.44" font-weight="800" letter-spacing="-2" fill="#F4F2E9">TQ</text><path d="M41.800000000000004 24.32 L65.36 7.6000000000000005 M54.72 7.6000000000000005 H65.36 V19.0" stroke="#D8FF3E" stroke-width="2.5" fill="none"/></g>
+<text x="164" y="70" font-size="25" font-weight="700" letter-spacing="1.5" fill="#626E73">TokiQuantLab</text>
+<text x="846" y="70" font-size="25" font-weight="700" fill="#102130">Agent Skills + Python</text>
+<text x="56" y="195" font-size="89" font-weight="800" letter-spacing="-3.7" fill="#102130">Toki Finance Daily</text>
+<text x="61" y="250" font-size="34" font-weight="600" fill="#626E73">财经日报</text>
+<path d="M60 283 H1140" stroke="#102130" stroke-width="1.3"/>
+<text x="60" y="327" font-size="29" font-weight="600" letter-spacing="-.3" fill="#102130">News. Context. Market insight.</text>
+<text x="757" y="327" font-size="29" fill="#626E73">新闻 · 背景 · 市场解读</text>
+</g></svg>

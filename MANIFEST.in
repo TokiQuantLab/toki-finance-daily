@@ -1,0 +1,4 @@
+include config/sources.json
+include examples/*.json
+include skills/toki-finance-daily/references/editorial.md
+recursive-include toki_finance_daily/assets *.css *.js *.html

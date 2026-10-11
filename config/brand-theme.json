@@ -1,0 +1,17 @@
+{
+  "name": "TokiQuantLab",
+  "colors": {
+    "ink": "#102130",
+    "paper": "#F4F2E9",
+    "accent": "#D8FF3E",
+    "surface": "#FBFAF6",
+    "muted": "#626E73",
+    "border": "#CDD1C8",
+    "darkMuted": "#BBC9C6",
+    "darkBorder": "#445561"
+  },
+  "fonts": {
+    "sans": ["Arial", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", "sans-serif"],
+    "mono": ["SFMono-Regular", "Consolas", "monospace"]
+  }
+}
