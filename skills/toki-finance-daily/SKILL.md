@@ -45,4 +45,10 @@ TradingView 新闻首页已作为候选来源，每24小时读取一次公开列
 
 用户已有 Dataset 与 Brief、只要求重建输出时，直接运行 `finish`，使用原有截止时刻与真实资料，不把它描述成重新采集。用户仅要求网站数据更新时，运行 `site --dataset <out>/dataset.json --brief <out>/brief.json --out <公开目录>`；该命令使用相同模板并更新公开数据、技术 CSV、观察台和已有海报下载。
 
-只需技术 CSV 时运行 `export-technicals --dataset <out>/dataset.json --out <out>/technicals.csv`。独立在线观察页使用 `workbench --out <out>`；联网组件展示供应商当前内容，不进入 Dataset，也不作为日报截至时刻的历史证据。仅看视觉样张使用 `demo --out <演示目录>`，明确标记离线演示。已配置模型接口时可用 `run` 自动成稿，再运行 `finish` 完成三种图片与固定网站交付；普通 Codex 技能调用使用当前 AI，无需另配模型 API。参数见 `--help`；本技能不发邮件、不创建定时任务、不推送或发布外部网站。
+只需技术 CSV 时运行 `export-technicals --dataset <out>/dataset.json --out <out>/technicals.csv`。独立在线观察页使用 `workbench --out <out>`；联网组件展示供应商当前内容，不进入 Dataset，也不作为日报截至时刻的历史证据。仅看视觉样张使用 `demo --out <演示目录>`，明确标记离线演示。已配置模型接口时可用 `run` 自动成稿，再运行 `finish` 完成三种图片与固定网站交付；普通 Codex 技能调用使用当前 AI，无需另配模型 API。参数见 `--help`；本技能不发邮件，普通日报调用默认只更新本地成果。
+
+## 已配置的线上更新
+
+用户明确要求发布，或执行已授权的定时发布任务时，按 [发布步骤](references/publishing.md) 将成功生成的公开网站同步到 GitHub Pages。仓库、发布分支和网址从用户指定目标或本机 `config/publishing.local.json` 读取；发布配置不随源码提交。只有本期真实资料与完整输出通过校验后才更新线上版本，模板沿用现有设计。定时任务由用户指定的平台创建，保存技能调用、运行目录与发布目标。
+
+清晨定时生成时，日报日期采用当天北京时间，内容包含隔夜重要信息与今日前瞻，新闻使用滚动窗口以覆盖上一海外交易时段。以实际采集截止时间为事实边界；周末仍整理重要消息和比特币，传统资产标明各自最近交易时点。

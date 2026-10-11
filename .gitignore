@@ -13,4 +13,5 @@ AGENTS.md
 DEVELOPMENT.md
 DESIGN.md
 config/brand-theme.json
+config/publishing.local.json
 docs/*
