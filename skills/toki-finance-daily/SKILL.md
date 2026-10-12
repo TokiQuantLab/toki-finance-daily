@@ -23,6 +23,8 @@ description: 采集财经新闻、快讯、官方经济数据与财经日历，�
 
 TradingView 新闻首页已作为候选来源，每24小时读取一次公开列表，只接受明确免费的条目，保留原媒体、原文链接与发布时间。列表记录的 `content_scope: headline` 表示只有标题，具体事实与关键判断先按需 `enrich` 补采已确认免费正文，或回查原始发布方。同栏目重复和上游转载合并，不增加独立证据权重。动态 News Flow 可作人工筛选入口，不单独重复采集；候选仍与全部来源一起按重要性选题。
 
+默认四个技术源使用 `browser_headless: false` 的普通可见 Chromium，运行环境须提供桌面会话。程序正常加载免费页面和切换周期，不依赖应用内浏览器的广告拦截环境。采集仍按24小时缓存保存真实观察时间；缓存键区分可见与无界面浏览器。`prepare` 的 `packet_info.technical_coverage` 列出每品种实际覆盖。
+
 技术页按来源配置的六个免费周期 `30m/1h/5h/1D/1W/1M` 独立读取。普通采集未取得、但正常浏览可见的页面，按 [普通浏览补充技术页](references/browser-capture.md) 保存可见快照并运行 `cache-technicals`。已有有效六周期缓存可直接复用，原始观察时间保持不变。缓存导入只更新缓存：若浏览补采发生在本次 `collect` 之后，成稿前重新运行 `collect --out <out>` 生成新的 Dataset。当日实时更新不沿用第一次冻结的 `--cutoff`，历史请求仍保留用户指定的截止边界。最终以新 Dataset 中实际进入的表格与缺口为准。
 
 运行 `python3 <skill>/scripts/daily.py prepare --dataset <out>/dataset.json --out <out>`，读取 `prompt.md`、Schema 和候选索引。审视全部来源，结合完整 Dataset 按事件与宏观变量组织证据链；索引还有 `next_offset` 时继续回查剩余记录。比较实际新变化、影响范围、四品种传导、证据质量与时效，决定主线和其他重要消息。选题与事实核对要求见 [编辑要求](references/editorial.md)，主要候选的取舍理由保存在私有 `editorial-notes.md`。
@@ -30,6 +32,8 @@ TradingView 新闻首页已作为候选来源，每24小时读取一次公开列
 关键判断需要原文时，运行 `enrich --dataset <out>/dataset.json --ids <新闻ID列表> --out <out>` 补采所选正文，再运行 `prepare --dataset <out>/dataset.json --out <out> --summary-chars 1800`。核对对应 `raw/` 文本，按契约写 `<out>/brief.json`。新增来源或人工补充证据时读取 [证据规范](references/evidence.md)。Brief 的日期、时区、截止时刻与模式沿用本次 Dataset；来源事实、解读和后续观察分别写明。
 
 ## 完成交付与更新预览
+
+本期 live 日报的已配置主线品种必须各有六周期综合评级及独立指标、均线、枢轴点数值。`finish` 与 `pages.py prepare` 都检查实际记录，缺失、无效、混合标的或越过截止时刻时停止更新；不把仅有摘要或单周期明细当作完整成果。
 
 成稿后运行 `python3 <skill>/scripts/daily.py finish --dataset <out>/dataset.json --brief <out>/brief.json --out <out>`。公开目录需要另设时加 `--site-out <公开目录>`。该命令校验成稿，调用现有渲染器生成完整长图、手机长图、封面、技术 CSV 与完整静态网站，生成成功后再同步固定公开目录。它不采集或调用模型，AI 成稿仍由你完成。
 

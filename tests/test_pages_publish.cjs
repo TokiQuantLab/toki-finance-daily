@@ -85,6 +85,8 @@ function fixture(settings = {}) {
       const expectedChunks = manifest.files.reduce((count, file) => count + Math.max(1, file.chunks), 0);
       assert.equal(calls.filter(call => call.name === "exec_command" && !call.args.cmd.startsWith("python3 -c ")).length, expectedChunks,
         "all chunks must be checked before the first mutation");
+      if (settings.blobForbidden) return {isError: true, structuredContent: {error: "denied", error_code: "FORBIDDEN",
+        error_data: {status: "403", message: "Resource not accessible by integration"}}};
       return structured({sha: blobSha(Buffer.from(args.content, "base64"))});
     }),
     mcp__codex_apps__github_create_tree: wrap("create_tree", async args => {
@@ -158,6 +160,13 @@ test("a failed fetch is not treated as a missing branch", async () => {
   const f = fixture({existing: true, fetchError: true});
   await assert.rejects(publishPages(f.tools, options), /读取 gh-pages/);
   assert.equal(f.calls.filter(c => c.name.startsWith("create_") || c.name === "update_ref").length, 0);
+});
+
+test("a denied blob reports its exact step and API reason without updating the branch", async () => {
+  const f = fixture({existing: true, blobForbidden: true});
+  await assert.rejects(publishPages(f.tools, options), /public-data.json.*FORBIDDEN.*403.*Resource not accessible by integration/);
+  assert.equal(f.calls.filter(c => c.name === "create_blob").length, 1);
+  assert.equal(f.calls.filter(c => ["create_tree", "create_commit", "update_ref", "create_branch"].includes(c.name)).length, 0);
 });
 
 test("the exact reader whitelist rejects private paths, extra entries, duplicates and demo data", async () => {

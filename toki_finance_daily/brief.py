@@ -284,6 +284,7 @@ def make_packet(dataset, limit=48, summary_chars=550, *, index_offset=0, index_l
         index.append({"id": record["id"], "kind": record["kind"], "source_id": record["source_id"], "title": str(record.get("title", ""))[:100], "time": time_value, "time_field": time_field, "observed_at": record.get("observed_at"), **labels[record["id"]]})
     coverage = {group: {label: {"available": sum(label in labels[r["id"]][group] for r in records), "selected": sum(label in labels[r["id"]][group] for r in selected)} for label in vocabulary if any(label in labels[r["id"]][group] for r in records)} for group, vocabulary in _KEYWORD_LABELS.items()}
     next_offset = index_offset + len(index)
+    from .technical_coverage import technical_coverage
     return {
         **{k: dataset[k] for k in ("schema_version", "date", "timezone", "cutoff", "collected_at", "window_start", "mode", "sources")},
         **({"calendar_lookback_days": dataset["calendar_lookback_days"]} if "calendar_lookback_days" in dataset else {}),
@@ -291,6 +292,7 @@ def make_packet(dataset, limit=48, summary_chars=550, *, index_offset=0, index_l
         "records": trimmed,
         "candidate_index": index,
         "packet_info": {
+            "technical_coverage": technical_coverage(dataset),
             "selected": len(trimmed), "available": len(records), "summary_chars": summary_chars,
             "selection": "新闻先保留各来源最新条目，补足关键词主题和资产的最新线索、不同来源覆盖，再按财经词轮选；非新闻为日历、非技术数据、日线技术摘要保留席位，剩余席位补详情。重要性由编辑判断。",
             "keyword_coverage": coverage,

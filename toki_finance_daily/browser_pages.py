@@ -364,6 +364,9 @@ def fetch_browser_page(source, network):
     if kind == "tradingview" and timeframe not in {"1m", "5m", "15m", "30m", "1h", "2h", "4h", "1D", "1W", "1M"}:
         raise ValueError("Unsupported technical timeframe")
     timeout = float(source.get("browser_timeout_seconds", 25))
+    headless = source.get("browser_headless", True)
+    if type(headless) is not bool:
+        raise ValueError("browser_headless must be a boolean")
     if not 1 <= timeout <= 60:
         raise ValueError("browser_timeout_seconds must be between 1 and 60")
     limit = _byte_limit(network)
@@ -372,14 +375,15 @@ def fetch_browser_page(source, network):
     url = source["url"]
     deadline = time.monotonic() + timeout
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True, timeout=max(1, int((deadline - time.monotonic()) * 1000)))
+        browser = p.chromium.launch(headless=headless, timeout=max(1, int((deadline - time.monotonic()) * 1000)))
         try:
             page = browser.new_page(viewport={"width": 1280, "height": 900})
             response = page.goto(url, wait_until="domcontentloaded", timeout=max(1, int((deadline - time.monotonic()) * 1000)))
             if response is None or response.status >= 400:
                 raise RuntimeError(f"Public technical page returned HTTP {response.status if response else 'unknown'}")
             if requested is not None:
-                return capture_investing_timeframes(page, source, network, http_status=response.status)
+                body, metadata = capture_investing_timeframes(page, source, network, http_status=response.status)
+                return body, {**metadata, "browser_headless": headless}
             remaining = max(1, int((deadline - time.monotonic()) * 1000))
             if kind == "tradingview":
                 tab = page.locator(f'button[role="tab"][id="{timeframe}"]')

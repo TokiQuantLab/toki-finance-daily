@@ -20,6 +20,7 @@ if str(ROOT) not in sys.path:
 from toki_finance_daily import cli
 from toki_finance_daily.brief import BriefError, validate_brief
 from toki_finance_daily.render import render_png
+from toki_finance_daily.technical_coverage import require_technical_coverage
 
 READER_FILES = (
     "public-data.json", "technical.html", "technicals.csv", "poster.html",
@@ -125,6 +126,7 @@ def finish(dataset_path, brief_path, out, site_out=None):
     dataset_path, brief_path, out, site_out = _paths(dataset_path, brief_path, out, site_out or ROOT / "artifacts/site")
     original_dataset, original_brief = dataset_path.read_bytes(), brief_path.read_bytes()
     dataset, brief = _inputs(original_dataset, original_brief)
+    coverage = require_technical_coverage(dataset)
     with tempfile.TemporaryDirectory(prefix="toki-finish-") as temporary:
         staged = Path(temporary) / "report"
         with contextlib.redirect_stdout(io.StringIO()):
@@ -157,6 +159,7 @@ def finish(dataset_path, brief_path, out, site_out=None):
             raise BriefError("渲染期间输入文件发生变化，请使用同一版证据与成稿重新完成交付。")
 
         manifest.update(
+            technical_coverage=coverage,
             html=str(out / "poster.html"), png=str(out / "poster.png"),
             mobile_png=str(out / "poster-mobile.png"), cover_png=str(out / "poster-cover.png"),
             technical_html=str(out / "technical.html"), technical_csv=str(out / "technicals.csv"),

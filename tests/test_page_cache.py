@@ -12,6 +12,20 @@ from unittest.mock import patch
 
 
 class PublicPageCacheTests(unittest.TestCase):
+    def test_corrected_visible_browser_does_not_replay_headless_failure(self):
+        headless = {**self.source, "transport": "browser-visible-page"}
+        failed = Mock(side_effect=RuntimeError("headless HTTP 403"))
+        with self.assertRaises(RuntimeError): fetch_source(headless, self.network, failed, now=self.now)
+        visible = {**headless, "browser_headless": False}
+        fetch = Mock(return_value=(b"visible capture", {"transport": "browser-visible-page"}))
+        body, metadata = fetch_source(visible, self.network, fetch, now=self.now + timedelta(minutes=1))
+        self.assertEqual(body, b"visible capture"); self.assertFalse(metadata["cache_hit"])
+        fetch_source(visible, self.network, fetch, now=self.now + timedelta(hours=1))
+        self.assertEqual(fetch.call_count, 1)
+        with self.assertRaisesRegex(RuntimeError, "retained"):
+            fetch_source(headless, self.network, failed, now=self.now + timedelta(hours=1))
+        self.assertEqual(failed.call_count, 1)
+
     def setUp(self):
         self.folder = tempfile.TemporaryDirectory()
         self.addCleanup(self.folder.cleanup)

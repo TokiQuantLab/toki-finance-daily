@@ -54,6 +54,8 @@ The Skill collects fresh data, drafts with your current AI agent, generates the 
 
 Skill 会采集资料、整理成稿、生成图片并更新本地研究网页，沿用现有版式。使用当前 AI 写稿，无需另配模型 API 密钥。
 
+四品种技术采集使用普通可见 Chromium，需要可用的桌面会话。每个品种读取六个免费周期的独立评级与指标、均线和枢轴点；实际覆盖不足时停止交付和发布，保留上一份成果。
+
 Results are saved in / 成果保存于：
 
 - `artifacts/live/` — `poster.png`, `poster-mobile.png`, `poster-cover.png`

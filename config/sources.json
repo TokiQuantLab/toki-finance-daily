@@ -525,7 +525,8 @@
         "1D",
         "1W",
         "1M"
-      ]
+      ],
+      "browser_headless": false
     },
     {
       "id": "investing_wti_technical",
@@ -552,7 +553,8 @@
         "1D",
         "1W",
         "1M"
-      ]
+      ],
+      "browser_headless": false
     },
     {
       "id": "investing_bitcoin_technical",
@@ -581,7 +583,8 @@
         "1D",
         "1W",
         "1M"
-      ]
+      ],
+      "browser_headless": false
     },
     {
       "id": "investing_nas100_technical",
@@ -609,7 +612,8 @@
         "1D",
         "1W",
         "1M"
-      ]
+      ],
+      "browser_headless": false
     }
   ],
   "calendar_lookback_days": 7,

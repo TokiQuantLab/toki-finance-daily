@@ -31,7 +31,14 @@ async function publishPages(tools, options) {
   const unpack = (result, action) => {
     const data = result && result.structuredContent;
     if (!result || result.isError || result.error || !data || data.error) {
-      throw new Error(action + " 失败，已停止发布。");
+      const code = data && data.error_code;
+      const detail = data && data.error_data;
+      // Retain bounded API diagnostics; never print the uploaded content.
+      const status = detail && detail.status;
+      const reason = detail && typeof detail.message === "string"
+        ? detail.message.replace(/\s+/g, " ").slice(0, 300) : "";
+      const diagnostic = [code, status, reason].filter(Boolean).join(" · ");
+      throw new Error(action + " 失败，已停止发布。" + (diagnostic ? " " + diagnostic : ""));
     }
     if (typeof data.content === "string") {
       try { return JSON.parse(data.content); }

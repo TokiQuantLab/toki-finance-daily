@@ -22,6 +22,10 @@ def _cache_paths(source, network):
         from .browser_pages import investing_requested_timeframes
 
         request_identity["browser_timeframes"] = sorted(investing_requested_timeframes(source))
+    # A corrected visible-browser configuration must not replay an attempt
+    # made by the old headless transport. Existing evidence stays on disk.
+    if source.get("transport") == "browser-visible-page" and source.get("browser_headless", True) is False:
+        request_identity["browser_headless"] = False
     if source.get("transport") == "jin10-mcp":
         request_identity.update(mcp_tool=source["mcp_tool"], mcp_arguments=source.get("mcp_arguments", {}))
     identity = json.dumps(request_identity, sort_keys=True)

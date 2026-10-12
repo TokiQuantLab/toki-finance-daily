@@ -227,6 +227,11 @@ def prepare(site, out, expected_date, url, chunk_size=CHUNK_SIZE, custom_domain=
         raise PagesError("仅可发布 live 日报，不能发布演示数据。")
     if expected_date is not None and edition_date != expected_date:
         raise PagesError(f"日报日期 {edition_date} 与预期日期 {expected_date} 不符。")
+    from toki_finance_daily.technical_coverage import require_technical_coverage
+    try:
+        require_technical_coverage(public)
+    except ValueError as error:
+        raise PagesError(str(error)) from error
     parser = _EmbeddedData()
     try:
         parser.feed(contents["index.html"].decode("utf-8"))

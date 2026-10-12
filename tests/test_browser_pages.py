@@ -95,6 +95,18 @@ class PublicBrowserPageTests(unittest.TestCase):
         page.locator.return_value.click.assert_called_once()
         self.assertEqual(metadata["requested_timeframe"],"1W")
 
+    def test_visible_browser_mode_uses_regular_chromium(self):
+        manager, browser, page = self.browser()
+        with patch("playwright.sync_api.sync_playwright", return_value=manager):
+            fetch_browser_page({**GOLD, "browser_headless": False}, {})
+        launch = manager.__enter__.return_value.chromium.launch
+        self.assertFalse(launch.call_args.kwargs["headless"])
+        self.assertEqual(set(launch.call_args.kwargs), {"headless", "timeout"})
+        with patch("playwright.sync_api.sync_playwright") as playwright:
+            with self.assertRaisesRegex(ValueError, "browser_headless"):
+                fetch_browser_page({**GOLD, "browser_headless": "false"}, {})
+            playwright.assert_not_called()
+
     def test_real_offline_dom_projection_excludes_hidden_scripts_and_sidebars_with_own_table_times(self):
         from playwright.sync_api import sync_playwright
         fixture=(Path(__file__).parent/"fixtures"/"investing-bitcoin-visible.html").read_text()
